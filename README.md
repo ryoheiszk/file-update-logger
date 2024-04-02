@@ -16,4 +16,11 @@ pip install nuitka
 python -m nuitka --onefile --standalone src/main.py
 ```
 
-settings.iniとmain.pyをパックして渡す。
+settings.iniとexclude_pattern.txtとmain.exeをパックして渡す。
+
+```
+main.exe
+src
+  L settings.ini
+  L exclude_pattern.txt
+```
