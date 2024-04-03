@@ -25,6 +25,7 @@ settings.iniを編集する。
 ```
 pip install nuitka
 python -m nuitka --onefile --standalone src/main.py
+python -m nuitka --onefile --standalone src/logtxt2excel.py
 ```
 
 settings.iniとexclude_pattern.txtとmain.exeをパックして渡す。
