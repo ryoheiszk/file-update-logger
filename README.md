@@ -9,6 +9,26 @@
 3. ログをチェックしたいときに、`logtxt2excel.exe`を実行する。 
 4. 出力されたExcelを使用する。なお、一度出力されたログはテキストファイルから削除されるため、常に最新のログのみExcelに表示されている。
 
+
+フォルダ構造の例
+
+```
+file-update-logger
+  L main.exe
+  Llogtxt2excel.exe
+  L src
+    L settings.ini
+    L exclude_pattern.txt
+
+logs
+  L log.txt
+  L log_20240403-115430.xlsx
+
+監視対象フォルダ
+  L フォルダA
+  L フォルダB
+```
+
 # 環境構築
 
 ```
