@@ -81,3 +81,6 @@ if __name__ == "__main__":
 
     delete_log_file(log_file_path)
     print("ログファイルを削除しました。")
+
+    import subprocess
+    subprocess.call('PAUSE', shell=True)
