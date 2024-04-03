@@ -9,13 +9,13 @@ from watchdog.events import LoggingEventHandler
 
 def load_settings(target):
     config = configparser.ConfigParser()
-    config.read('src/settings.ini')
+    config.read('src/settings.ini', encoding='utf-8')
     return config['Settings'][target]
 
 
 def load_exclude_patterns():
     patterns = []
-    with open("src/exclude_patterns.txt", "r") as file:
+    with open("src/exclude_patterns.txt", "r",  encoding='utf-8') as file:
         patterns = [line.strip() for line in file if line.strip()]
     return patterns
 
@@ -64,11 +64,6 @@ class LoggingEventHandler2(LoggingEventHandler):
             message = f"{timestamp} | 削除 | {event.src_path}"
             self.write_log(message)
 
-    def abbreviate_path(full_path, base_path):
-        if full_path.startswith(base_path):
-            return "..." + full_path[len(base_path):]
-        return full_path
-
     def write_log(self, message):
         # メッセージの加工: 一致する部分を非表示
         base_directory = load_settings("base_directory")
@@ -78,7 +73,7 @@ class LoggingEventHandler2(LoggingEventHandler):
         message = message.replace("\\", " / ")
 
         print(message)
-        with open(LOG_FILE_PATH, "a") as log_file:
+        with open(LOG_FILE_PATH, "a",  encoding='utf-8') as log_file:
             log_file.write(message + "\n")
 
 if __name__ == "__main__":

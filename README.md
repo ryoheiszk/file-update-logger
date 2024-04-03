@@ -7,6 +7,7 @@ pip install -r requirements.txt
 ```
 
 settings.iniを編集する。
+
 main.pyを常駐させる。
 
 
