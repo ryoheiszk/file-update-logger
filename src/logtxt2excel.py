@@ -82,8 +82,8 @@ if __name__ == "__main__":
     convert_log_to_excel(log_file_path, excel_file_path)
     print("ログファイルの変換に成功しました。")
 
-    # delete_log_file(log_file_path)
-    # print("ログファイルを削除しました。")
+    delete_log_file(log_file_path)
+    print("ログファイルを削除しました。")
 
     import subprocess
     subprocess.call('PAUSE', shell=True)
