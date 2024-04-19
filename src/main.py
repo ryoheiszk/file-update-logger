@@ -65,16 +65,26 @@ class LoggingEventHandler2(LoggingEventHandler):
             self.write_log(message)
 
     def write_log(self, message):
-        # メッセージの加工: 一致する部分を非表示
+        # ログの分解
+        datetime = message.split(" | ")[0]
+        operation = message.split(" | ")[1]
+        fullpath = message.split(" | ")[2]
+
+        # 略式パスの取得
         base_directory = load_settings("base_directory")
-        message = message.replace(base_directory, "")
+        simplified_path = fullpath.replace(base_directory, "")
 
-        # メッセージの加工: 置き換え
-        message = message.replace("\\", " / ")
+        # 加工
+        fullpath = fullpath.replace("\\", "/")
+        simplified_path = simplified_path.replace("\\", " / ")
 
-        print(message)
+        # 再結合
+        new_message = f"{datetime} | {operation} | {simplified_path} | {fullpath}"
+
+
+        print(new_message)
         with open(LOG_FILE_PATH, "a",  encoding='utf-8') as log_file:
-            log_file.write(message + "\n")
+            log_file.write(new_message + "\n")
 
 if __name__ == "__main__":
     DIRECTORY_TO_WATCH = load_settings("directory_to_watch")
@@ -84,6 +94,7 @@ if __name__ == "__main__":
     observer = Observer()
     observer.schedule(event_handler, DIRECTORY_TO_WATCH, recursive=True)
     observer.start()
+    print (f"「{DIRECTORY_TO_WATCH}」の監視を開始しました。")
     try:
         while True:
             time.sleep(1)
