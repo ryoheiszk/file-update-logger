@@ -37,7 +37,7 @@ def convert_log_to_excel(log_file_path, excel_file_path):
                 data.append([date, time, operation, directory, file_name, directory_fullpath, file_fullpath])
 
     # DataFrameを作成（ディレクトリフルパスの列を含む）
-    df = pd.DataFrame(data, columns=['日付', '時刻', '操作', 'ディレクトリ', 'ファイル', 'directory_fullpath', 'file_fullpath'])
+    df = pd.DataFrame(data, columns=['日付', '時刻', '操作', 'フォルダ', 'ファイル', 'directory_fullpath', 'file_fullpath'])
 
     with pd.ExcelWriter(excel_file_path, engine='xlsxwriter') as writer:
         df.drop(columns=['directory_fullpath', 'file_fullpath']).to_excel(writer, index=False, sheet_name='Log')
@@ -52,7 +52,7 @@ def convert_log_to_excel(log_file_path, excel_file_path):
         for idx, row in df.iterrows():
             # ディレクトリ
             link = f'external:{row["directory_fullpath"]}'
-            worksheet.write_url(f'D{idx + 2}', link, string=row['ディレクトリ'])
+            worksheet.write_url(f'D{idx + 2}', link, string=row['フォルダ'])
 
             # ファイル
             link = f'external:{row["file_fullpath"]}'
@@ -68,8 +68,8 @@ def delete_log_file(log_file_path):
 
 if __name__ == "__main__":
     settings = load_settings("Settings", "src/settings.ini")
-    log_folder = settings['log_folder']
-    log_file_path = log_folder + "\\" + settings['log_file']
+    log_folder = "logs"
+    log_file_path = log_folder + "\\event_log.txt"
 
     # ログファイルの存在を確認
     if not os.path.exists(log_file_path):
