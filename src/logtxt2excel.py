@@ -58,17 +58,13 @@ def convert_log_to_excel(log_file_path, excel_file_path):
             link = f'external:{row["file_fullpath"]}'
             worksheet.write_url(f'E{idx + 2}', link, string=row['ファイル'])
 
-    print("Excelファイルに変換しました。")
-
-
-
 def delete_log_file(log_file_path):
     # ログファイルを削除する
     os.remove(log_file_path)
 
 if __name__ == "__main__":
     settings = load_settings("Settings", "src/settings.ini")
-    log_folder = "logs"
+    log_folder = settings["log_folder"]
     log_file_path = log_folder + "\\event_log.txt"
 
     # ログファイルの存在を確認
@@ -80,10 +76,9 @@ if __name__ == "__main__":
     excel_file_path = create_excel_file(log_folder)
 
     convert_log_to_excel(log_file_path, excel_file_path)
-    print("ログファイルの変換に成功しました。")
+    print("Excelファイルに変換しました。")
 
     delete_log_file(log_file_path)
-    print("ログファイルを削除しました。")
 
     import subprocess
     subprocess.call('PAUSE', shell=True)

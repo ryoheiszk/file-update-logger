@@ -87,7 +87,7 @@ class LoggingEventHandler2(LoggingEventHandler):
 
 if __name__ == "__main__":
     DIRECTORY_TO_WATCH = load_settings("directory_to_watch")
-    LOG_FILE_PATH = load_settings("log_folder") + "\\" + load_settings("log_file")
+    LOG_FILE_PATH = load_settings("log_folder") + "\\event_log.txt"
     exclude_patterns = load_exclude_patterns()
     event_handler = LoggingEventHandler2(exclude_patterns, debounce_time=1.0)
     observer = Observer()
