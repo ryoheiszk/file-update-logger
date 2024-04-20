@@ -29,10 +29,9 @@ class LoggingEventHandler2(LoggingEventHandler):
         self.last_event_path = ""
 
     def should_exclude(self, path):
-        filename = os.path.basename(path)
-        if not os.path.splitext(filename)[1]:  # 拡張子がない場合は除外
+        if not os.path.splitext(path)[1]:  # 拡張子がない場合は除外
             return True
-        return any(re.search(pattern, filename) for pattern in self.exclude_patterns)
+        return any(re.search(pattern, path) for pattern in self.exclude_patterns)
 
     def should_debounce(self, event):
         current_time = time.time()
@@ -71,7 +70,7 @@ class LoggingEventHandler2(LoggingEventHandler):
         fullpath = message.split(" | ")[2]
 
         # 略式パスの取得
-        base_directory = load_settings("base_directory")
+        base_directory = load_settings("base_directory") + "\\"
         simplified_path = fullpath.replace(base_directory, "")
 
         # 加工
@@ -88,7 +87,7 @@ class LoggingEventHandler2(LoggingEventHandler):
 
 if __name__ == "__main__":
     DIRECTORY_TO_WATCH = load_settings("directory_to_watch")
-    LOG_FILE_PATH = load_settings("log_file")
+    LOG_FILE_PATH = load_settings("log_folder") + "\\" + load_settings("log_file")
     exclude_patterns = load_exclude_patterns()
     event_handler = LoggingEventHandler2(exclude_patterns, debounce_time=1.0)
     observer = Observer()

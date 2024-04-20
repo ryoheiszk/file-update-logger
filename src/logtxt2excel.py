@@ -69,7 +69,7 @@ def delete_log_file(log_file_path):
 if __name__ == "__main__":
     settings = load_settings("Settings", "src/settings.ini")
     log_folder = settings['log_folder']
-    log_file_path = settings['log_file']
+    log_file_path = log_folder + "\\" + settings['log_file']
 
     # ログファイルの存在を確認
     if not os.path.exists(log_file_path):

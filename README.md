@@ -1,3 +1,7 @@
+# 概要
+
+
+
 # 使い方
 
 1. ログを出力したいフォルダをデスクトップ等に作成し、`src/settings.ini`にパスを記載する。その他項目も調整する。
@@ -42,7 +46,22 @@ pip install -r requirements.txt
 まずはログフォルダをデスクトップなどに作る。
 settings.iniを編集する。
 
-実行ファイルの作り方
+# 実行方法
+
+監視開始
+
+```
+python src/main.py
+```
+
+未保存のログをExcelに書き出し
+
+```
+python src/logtxt2excel.py
+```
+
+# 実行ファイルの作り方
+
 ```
 pip install nuitka
 python -m nuitka --onefile --standalone src/main.py
@@ -59,4 +78,22 @@ logtxt2excel.exe
 src
   L settings.ini
   L exclude_pattern.txt
+```
+
+#  `src/exclude_patterns.txt`の編集方法
+
+正規表現でマッチする文字列が含まれる場合、監視から除外される。
+
+特定のファイルを除外したい場合 (以下は既定値)
+
+```
+~\$
+\.tmp$
+desktop.ini
+```
+
+特定のフォルダ以下を除外したい場合
+
+```
+フォルダA\\フォルダB
 ```
