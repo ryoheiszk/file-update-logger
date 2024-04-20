@@ -6,7 +6,8 @@
 # 使い方
 
 1. ログを出力したいフォルダをデスクトップ等に作成し、`src/settings.ini`にパスを記載する。その他項目も調整する。
-2.  `main.exe`を起動して放置する。
+2. 下記の「実行ファイルの作り方」におけるショートカット作成を自ら行う。
+3. `main.exe - ショートカット`を起動して放置する。
 
 - プログラムを閉じたり、PCをシャットダウンしたりしない。
 - Windowsの仮想デスクトップ機能を使うと便利。
@@ -20,19 +21,30 @@
 
 ```
 file-update-logger
-  L main.exe
-  Llogtxt2excel.exe
+  L main.exe - ショートカット           <- 作業フォルダ書き換え済み
+  L logtxt2excel.exe - ショートカット   <- 作業フォルダ書き換え済み
   L src
     L settings.ini
     L exclude_pattern.txt
+  L main.dist
+    L main.exe
+    L ...
+    L ..
+    L.
+  L logtxt2excel.dist
+    L logtxt2excel.exe
+    L ...
+    L ..
+    L.
 
 logs
-  L log.txt
-  L log_20240403-115430.xlsx
+  L event_log.txt
+  L event_log_20240403-115430.xlsx
 
 監視対象フォルダ
   L フォルダA
   L フォルダB
+  L 除外フォルダ
 ```
 
 # 環境構築
@@ -65,23 +77,45 @@ python src/logtxt2excel.py
 
 # 実行ファイルの作り方
 
+`--onefile`で作成した実行ファイルは、Windows Defenderにウイルス判定されてしまいやすいらしい。
+よって、暫定的に下記の手順で実行するものとする。
+
+1. `main.py`と`logtxt2excel.py`をExeにする。
+
 ```
-pip install nuitka
-python -m nuitka --onefile --standalone src/main.py
-python -m nuitka --onefile --standalone src/logtxt2excel.py
+python -m nuitka --standalone src/main.py
+python -m nuitka --standalone src/logtxt2excel.py
 ```
 
-settings.iniとexclude_pattern.txtとmain.exeをパックして渡す。
-(下記の状態でリリース)
+2. 生成された`main.dist`と`logtxt2excel.dist`を、`file-update-logger-v1.x.x`のようなフォルダにコピーする。
+3. `src/settings.ini`と`src/exclude_patterns.txt`もコピーする。
+4. `main.dist/main.exe`のショートカットを上の階層に配置して、プロパティから作業フォルダを、その階層に設定する。
+   これは、雑な実装の兼ね合いで、ルートで実行する必要があるため。
+5. `logtxt2excel`の方も同様に行う。
 
-file-upload-logger_vx.x.x
+ここで、下記のような構成になっている。
+
 ```
-main.exe
-logtxt2excel.exe
-src
-  L settings.ini
-  L exclude_pattern.txt
+file-update-logger-v1.x.x
+  L logtxt2excel.dist
+      L logtxt2excel.exe
+      L ...
+      L ..
+      L .
+  L main.dist
+      L main.exe
+      L ...
+      L ..
+      L .
+  L src
+      L exclude_patterns.txt
+      L settings.ini
+  L logtxt2excel.exe - ショートカット    <-作業フォルダ書き換え済み
+  L main.exe - ショートカット            <-作業フォルダ書き換え済み
 ```
+
+6. この状態で動作テストする。
+7. OKなら、ショートカットは削除して、Zipにして公開する。
 
 #  `src/exclude_patterns.txt`の編集方法
 
